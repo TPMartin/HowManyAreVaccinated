@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Many UK Vaccinations?</title>
+    <link rel="stylesheet" type="text/css" href="howmanyarevaccinated.css"/>
+</head>
+<body>
+    <div class="flexbox-container">
+        <div class="flexbox-column">
+            <div class="flexbox-item">
+                <label id=vaccinations class="vaccination-count">Loading...</label>
+            </div>
+            <div class="flexbox-item">
+                <label>people have received the first dose of the </label>
+            </div>
+            <div class="flexbox-item">
+                <label>Covid-19 vaccination in the UK as of:</label>
+            </div>
+            <div class="flexbox-item">
+                <label id="todaysDate"></label>
+            </div>
+        </div>
+    </div>
+    <script>
+        const AreaType = "overview";
+
+        const filters = [`areaType=${ AreaType }`];
+        const structure = { cumPeopleVaccinatedFirstDoseByPublishDate: "cumPeopleVaccinatedFirstDoseByPublishDate" };
+
+        const apiParams = `filters=${ filters.join(";") }&structure=${ JSON.stringify(structure) }&latestBy=cumPeopleVaccinatedFirstDoseByPublishDate`;
+        const encodedParams = encodeURI(apiParams);
+
+        fetch(`https://api.coronavirus.data.gov.uk/v1/data?${ encodedParams }`, {method:'GET', headers:{'Content-Type':'application/json'}})
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("vaccinations").textContent = data.data[0].cumPeopleVaccinatedFirstDoseByPublishDate.toLocaleString();});
+        
+        var currentDate = new Date()
+        var day = currentDate.getDate()
+        var month = currentDate.getMonth() + 1
+        var year = currentDate.getFullYear()
+
+        document.getElementById("todaysDate").textContent = day + "/" + month + "/" + year;
+
+    </script>
+</body>
+</html>
