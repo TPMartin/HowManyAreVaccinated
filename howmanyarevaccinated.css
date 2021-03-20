@@ -2,17 +2,19 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
 }
+
 body {
     background-color: white;
     position: relative;
-    min-height: 100vh;
     font-family: 'Agency FB';
     color: #474747;
 }
+
 .flexbox-container {
     animation: fadeIn 1.5s;
     height: 100vh;
@@ -20,19 +22,22 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .flexbox-column {
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
+
 .flexbox-item {
     display: flex;
-    font-size: 1rem;
     align-content: center;
     justify-content: center;
     align-items: center;
+    font-size: 1.5rem;
 }
+
 .vaccination-count {
-    font-size: 5rem;
+    font-size: 15vw;
     font-weight: bold;
 }

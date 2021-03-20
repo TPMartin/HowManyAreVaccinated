@@ -4,16 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How Many UK Vaccinations?</title>
-    <link rel="stylesheet" type="text/css" href="howmanyarevaccinated.css"/>
+    <link rel="stylesheet" type="text/css" href="howmanyarevaccinated.css" />
 </head>
 <body>
     <div class="flexbox-container">
         <div class="flexbox-column">
             <div class="flexbox-item">
-                <label id=vaccinations class="vaccination-count">Loading...</label>
+                <label id=firstdosevaccinations class="vaccination-count">Loading...</label>
             </div>
             <div class="flexbox-item">
                 <label>people have received the first dose of the </label>
+            </div>
+            <div class="flexbox-item">
+                <label>Covid-19 vaccination in the UK and</label>
+            </div>
+            <div class="flexbox-item">
+                <label id=seconddosevaccinations class="vaccination-count">Loading...</label>
+            </div>
+            <div class="flexbox-item">
+                <label>people have received the second dose of the </label>
             </div>
             <div class="flexbox-item">
                 <label>Covid-19 vaccination in the UK as of:</label>
@@ -26,17 +35,19 @@
     <script>
         const AreaType = "overview";
 
-        const filters = [`areaType=${ AreaType }`];
-        const structure = { cumPeopleVaccinatedFirstDoseByPublishDate: "cumPeopleVaccinatedFirstDoseByPublishDate" };
+        const filters = [`areaType=${AreaType}`];
+        const structure = { cumPeopleVaccinatedFirstDoseByPublishDate: "cumPeopleVaccinatedFirstDoseByPublishDate", cumPeopleVaccinatedSecondDoseByPublishDate: "cumPeopleVaccinatedSecondDoseByPublishDate" };
 
-        const apiParams = `filters=${ filters.join(";") }&structure=${ JSON.stringify(structure) }&latestBy=cumPeopleVaccinatedFirstDoseByPublishDate`;
+        const apiParams = `filters=${filters.join(";")}&structure=${JSON.stringify(structure)}&latestBy=cumPeopleVaccinatedFirstDoseByPublishDate`;
         const encodedParams = encodeURI(apiParams);
 
-        fetch(`https://api.coronavirus.data.gov.uk/v1/data?${ encodedParams }`, {method:'GET', headers:{'Content-Type':'application/json'}})
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("vaccinations").textContent = data.data[0].cumPeopleVaccinatedFirstDoseByPublishDate.toLocaleString();});
-        
+        fetch(`https://api.coronavirus.data.gov.uk/v1/data?${encodedParams}`, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("firstdosevaccinations").textContent = data.data[0].cumPeopleVaccinatedFirstDoseByPublishDate.toLocaleString();
+                document.getElementById("seconddosevaccinations").textContent = data.data[0].cumPeopleVaccinatedSecondDoseByPublishDate.toLocaleString();
+            });
+
         var currentDate = new Date()
         var day = currentDate.getDate()
         var month = currentDate.getMonth() + 1
